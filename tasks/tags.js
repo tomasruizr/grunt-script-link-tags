@@ -26,7 +26,7 @@ module.exports = function (grunt) {
         processedOptions.linkTemplate = options.linkTemplate || '<link href="{{ path }}"/>';
 
         processedOptions.openTag = options.openTag || '<!-- start auto template tags -->';
-        processedOptions.closeTag = options.closeTag || '<!-- start auto template tags -->';
+        processedOptions.closeTag = options.closeTag || '<!-- end auto template tags -->';
 
         /**
          * @kludge should not have to hack around for templates
