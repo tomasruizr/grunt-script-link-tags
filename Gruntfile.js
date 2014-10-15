@@ -22,6 +22,13 @@ module.exports = function(grunt) {
                     'tests/build/**/*.css'
                 ],
                 dest: 'tests/results/all-tags.html'
+            },
+            testIndenting: {
+                src: [
+                    'tests/build/**/*.js',
+                    'tests/build/**/*.css'
+                ],
+                dest: 'tests/results/indented-tags.html'
             }
         },
         copy: {
@@ -52,6 +59,7 @@ module.exports = function(grunt) {
         'clean',
         'copy:main',
         'tags:test',
+        'tags:testIndenting',
         'nodeunit',
         'clean'
     ]);
