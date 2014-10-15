@@ -138,8 +138,8 @@ You can override all default options. In the following multi-task, we have two t
 In lieu of a formal guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality.
 
 ## Release History
-
- * 2013-30-11   v1.0.0   First version!
+ * 2014-15-10   v1.0.0   All added tags now match indentation of start tag thanks to [rahilwazir](https://github.com/rahilwazir). Added type/rel attributes to script/link defaults.
+ * 2013-30-11   v0.0.5   First version!
 
 ---
 
