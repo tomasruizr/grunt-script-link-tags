@@ -26,14 +26,29 @@ module.exports = function (grunt) {
         processedOptions.linkTemplate = options.linkTemplate || '<link href="{{ path }}"/>';
 
         processedOptions.openTag = options.openTag || '<!-- start auto template tags -->';
-        processedOptions.closeTag = options.closeTag || '<!-- start auto template tags -->';
+        processedOptions.closeTag = options.closeTag || '<!-- end auto template tags -->';
 
         /**
          * @kludge should not have to hack around for templates
          */
         processedOptions.scriptTemplate = processedOptions.scriptTemplate.replace('{{', '<%=').replace('}}', '%>')
         processedOptions.linkTemplate = processedOptions.linkTemplate.replace('{{', '<%=').replace('}}', '%>')
+        
+        /**
+         * get the openTag line from content
+         */
+        processedOptions.getIndentWithTag = new RegExp("([\\s\\t]+)?" + processedOptions.openTag);
 
+        /**
+         * replace newlines with empty string from @this.getIndentWithTag
+         */
+        processedOptions.replaceNewLines = new RegExp(EOL, "g");
+        
+        /**
+         * indent size @this.openTag
+         */
+        processedOptions.indent = '';
+        
         return processedOptions;
     };
 
@@ -47,13 +62,24 @@ module.exports = function (grunt) {
         var tagsText = '';
         var fileContents = grunt.file.read(destFile);
         var filePath = path.dirname(destFile);
+        var matches = fileContents.match(this.options.getIndentWithTag);
+        
+        /**
+         * get the indent along with this.options.openTag
+         */
+        if (matches && matches[1]) {
+            /**
+             * get the indent size by replacing this.options.openTag with empty string 
+             */
+            this.options.indent = matches[1].replace(this.options.replaceNewLines, '');
+        }
 
         this.validateTemplateTags(destFile, fileContents);
 
         srcFiles.forEach(function (srcFile) {
             // calculate the src files path relative to destination path
             var relativePath = path.relative(filePath, srcFile);
-            tagsText += that.generateTag(relativePath);
+            tagsText += that.options.indent + that.generateTag(relativePath);
         });
 
         var res = this.addTags(fileContents, tagsText);
@@ -106,7 +132,7 @@ module.exports = function (grunt) {
         return beginning +
                this.options.openTag + EOL +
                tagsText +
-               this.options.closeTag +
+               this.options.indent + this.options.closeTag +
                end;
     };
 
