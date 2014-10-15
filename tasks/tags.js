@@ -22,8 +22,8 @@ module.exports = function (grunt) {
     Tags.prototype.processOptions = function (options) {
         var processedOptions = {};
 
-        processedOptions.scriptTemplate = options.scriptTemplate || '<script src="{{ path }}"></script>';
-        processedOptions.linkTemplate = options.linkTemplate || '<link href="{{ path }}"/>';
+        processedOptions.scriptTemplate = options.scriptTemplate || '<script type="text/javascript" src="{{ path }}"></script>';
+        processedOptions.linkTemplate = options.linkTemplate || '<link rel="stylesheet" type="text/css" href="{{ path }}"/>';
 
         processedOptions.openTag = options.openTag || '<!-- start auto template tags -->';
         processedOptions.closeTag = options.closeTag || '<!-- end auto template tags -->';
@@ -31,9 +31,9 @@ module.exports = function (grunt) {
         /**
          * @kludge should not have to hack around for templates
          */
-        processedOptions.scriptTemplate = processedOptions.scriptTemplate.replace('{{', '<%=').replace('}}', '%>')
-        processedOptions.linkTemplate = processedOptions.linkTemplate.replace('{{', '<%=').replace('}}', '%>')
-        
+        processedOptions.scriptTemplate = processedOptions.scriptTemplate.replace('{{', '<%=').replace('}}', '%>');
+        processedOptions.linkTemplate = processedOptions.linkTemplate.replace('{{', '<%=').replace('}}', '%>');
+
         /**
          * get the openTag line from content
          */
@@ -43,12 +43,12 @@ module.exports = function (grunt) {
          * replace newlines with empty string from @this.getIndentWithTag
          */
         processedOptions.replaceNewLines = new RegExp(EOL, "g");
-        
+
         /**
          * indent size @this.openTag
          */
         processedOptions.indent = '';
-        
+
         return processedOptions;
     };
 
@@ -63,13 +63,13 @@ module.exports = function (grunt) {
         var fileContents = grunt.file.read(destFile);
         var filePath = path.dirname(destFile);
         var matches = fileContents.match(this.options.getIndentWithTag);
-        
+
         /**
          * get the indent along with this.options.openTag
          */
         if (matches && matches[1]) {
             /**
-             * get the indent size by replacing this.options.openTag with empty string 
+             * get the indent size by replacing this.options.openTag with empty string
              */
             this.options.indent = matches[1].replace(this.options.replaceNewLines, '');
         }
