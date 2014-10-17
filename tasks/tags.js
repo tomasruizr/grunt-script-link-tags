@@ -10,6 +10,16 @@ module.exports = function (grunt) {
     var EOL = os.EOL; // end of line for operating system
 
     /**
+     * Normalize the files paths for window (\) and unix (/)
+     * 
+     * @function normalizePaths
+     * @return {String} 
+     */
+     function normalizePaths (path) {
+        return path.replace(/\\/g, '/');
+     }
+
+    /**
      * @constructor create a new instance of tags task
      */
     function Tags (options) {
@@ -78,7 +88,7 @@ module.exports = function (grunt) {
 
         srcFiles.forEach(function (srcFile) {
             // calculate the src files path relative to destination path
-            var relativePath = path.relative(filePath, srcFile);
+            var relativePath = normalizePaths(path.relative(filePath, srcFile));
             tagsText += that.options.indent + that.generateTag(relativePath);
         });
 
