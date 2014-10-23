@@ -57,7 +57,7 @@ If a matched file has a `.js` extension, it will compile the `options.scriptTemp
 
 Type: `String`
 
-Default value: `<link href="{{ path }}"/>`
+Default value: `<link rel="stylesheet" type="text/css" href="{{ path }}"/>`
 
 If a matched file has a `.css` extension, it will compile the `options.linkTemplate` template with the file path.
 
