@@ -49,7 +49,7 @@ In your project's Gruntfile, add a section named `tags` to the data object passe
 
 Type: `String`
 
-Default value: `<script src="{{ path }}"></script>`
+Default value: `<script type="text/javascript" src="{{ path }}"></script>`
 
 If a matched file has a `.js` extension, it will compile the `options.scriptTemplate` template with the file path.
 
