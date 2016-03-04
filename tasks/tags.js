@@ -73,7 +73,7 @@ module.exports = function (grunt) {
         var fileContents = grunt.file.read(destFile);
         var filePath = path.dirname(destFile);
         var matches = fileContents.match(this.options.getIndentWithTag);
-
+        console.log(srcFiles);
         /**
          * get the indent along with this.options.openTag
          */
@@ -88,12 +88,11 @@ module.exports = function (grunt) {
 
         srcFiles.forEach(function (srcFile) {
             // calculate the src files path relative to destination path
-            var relativePath = normalizePaths(path.relative(filePath, srcFile));
+            var relativePath = normalizePaths(path.relative(filePath, srcFile));            
             tagsText += that.options.indent + that.generateTag(relativePath);
         });
 
         var res = this.addTags(fileContents, tagsText);
-
         grunt.file.write(destFile, res);
     };
 
@@ -122,10 +121,12 @@ module.exports = function (grunt) {
                 path: relativePath
             }
         };
-
         if (ext === '.js') {
             return grunt.template.process(this.options.scriptTemplate, data) + EOL;
-        } else if (ext === '.css') {
+        //*******************************************
+        // Modificado por Tomás Ruiz para aceptar sass
+        //*******************************************
+        } else if (['.css', '.scss', '.sass'].indexOf(ext) !== -1) {
             return grunt.template.process(this.options.linkTemplate, data) + EOL;
         } else {
             return ''
